@@ -13,7 +13,7 @@
 function mem(config) {
   const context = {};
   context.gid = config.gid || 'all';
-  context.hash = config.hash || id.naiveHash;
+  context.hash = config.hash || globalThis.distribution.util.id.naiveHash;
 
   /**
    * @param {SimpleConfig} configuration

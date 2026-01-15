@@ -30,12 +30,14 @@ function status(config) {
    * @param {Callback} callback
    */
   function spawn(configuration, callback) {
+    callback(new Error('status.spawn not implemented')); // If you won't implement this, check the skip.sh script.
   }
 
   /**
    * @param {Callback} callback
    */
   function stop(callback) {
+    callback(new Error('status.stop not implemented')); // If you won't implement this, check the skip.sh script.
   }
 
   return {get, stop, spawn};

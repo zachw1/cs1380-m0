@@ -2,7 +2,7 @@
 
 /*
 Convert each term to its stem
-Usage: ./stem.js <input >output
+Usage: input > ./stem.js > output
 */
 
 const readline = require('readline');

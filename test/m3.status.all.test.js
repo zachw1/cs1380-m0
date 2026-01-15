@@ -107,11 +107,37 @@ beforeAll((done) => {
 
     // Start the nodes
     distribution.local.status.spawn(n1, (e, v) => {
+      if (e) {
+        done(e);
+        return;
+      }
       distribution.local.status.spawn(n2, (e, v) => {
+        if (e) {
+          done(e);
+          return;
+        }
         distribution.local.status.spawn(n3, (e, v) => {
+          if (e) {
+            done(e);
+            return;
+          }
           distribution.local.status.spawn(n4, (e, v) => {
+            if (e) {
+              done(e);
+              return;
+            }
             distribution.local.status.spawn(n5, (e, v) => {
-              distribution.local.status.spawn(n6, groupInstantiation);
+              if (e) {
+                done(e);
+                return;
+              }
+              distribution.local.status.spawn(n6, (e, v) => {
+                if (e) {
+                  done(e);
+                  return;
+                }
+                groupInstantiation();
+              });
             });
           });
         });

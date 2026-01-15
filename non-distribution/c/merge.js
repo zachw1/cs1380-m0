@@ -2,7 +2,7 @@
 
 /*
 Merge the current inverted index (assuming the right structure) with the global index file
-Usage: cat input | ./merge.js global-index > output
+Usage: input > ./merge.js global-index > output
 
 The inverted indices have the different structures!
 

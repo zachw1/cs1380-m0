@@ -211,8 +211,20 @@ beforeAll((done) => {
 
     const startNodes = (cb) => {
       distribution.local.status.spawn(n1, (e, v) => {
+        if (e) {
+          done(e);
+          return;
+        }
         distribution.local.status.spawn(n2, (e, v) => {
+          if (e) {
+            done(e);
+            return;
+          }
           distribution.local.status.spawn(n3, (e, v) => {
+            if (e) {
+              done(e);
+              return;
+            }
             cb();
           });
         });

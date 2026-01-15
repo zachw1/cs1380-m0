@@ -17,12 +17,14 @@ function get(configuration, callback) {
  * @param {Callback} callback
  */
 function spawn(configuration, callback) {
+  callback(new Error('status.spawn not implemented'));
 }
 
 /**
  * @param {Callback} callback
  */
 function stop(callback) {
+  callback(new Error('status.stop not implemented'));
 }
 
 module.exports = {get, spawn, stop};

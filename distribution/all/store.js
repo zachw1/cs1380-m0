@@ -13,7 +13,7 @@
 function store(config) {
   const context = {
     gid: config.gid || 'all',
-    hash: config.hash || id.naiveHash,
+    hash: config.hash || globalThis.distribution.util.id.naiveHash,
     subset: config.subset,
   };
 

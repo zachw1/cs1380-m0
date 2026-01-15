@@ -9,11 +9,6 @@ const log = require('./distribution/util/log.js');
  * @param {Node} [config]
  */
 function bootstrap(config) {
-  if (globalThis.distribution) {
-    log('distribution has already been setup!');
-    return globalThis.distribution;
-  }
-
   // @ts-ignore This is the first time globalThis.distribution is being initialized, so the object does not have all the necessary properties.
   globalThis.distribution = {};
   globalThis.distribution.util = require('./distribution/util/util.js');
@@ -36,10 +31,11 @@ function bootstrap(config) {
 
   // For M3, when missing RPC, its path through routes, and status.{spawn, stop}
   /* __start_M3_solution__
-  globalThis.distribution.util.wire.createRPC = require('@brown-ds/distribution').util.wire.createRPC;
-  globalThis.distribution.local.routes.get = require('@brown-ds/distribution').local.routes.get;
-  globalThis.distribution.local.status.spawn = require('@brown-ds/distribution').local.status.spawn;
-  globalThis.distribution.local.status.stop = require('@brown-ds/distribution').local.status.stop;
+  const distributionLib = require('@brown-ds/distribution')(config);
+  globalThis.distribution.util.wire.createRPC = distributionLib.util.wire.createRPC;
+  globalThis.distribution.local.routes.get = distributionLib.local.routes.get;
+  globalThis.distribution.local.status.spawn = distributionLib.local.status.spawn;
+  globalThis.distribution.local.status.stop = distributionLib.local.status.stop;
   __end_M3_solution__ */
   return globalThis.distribution;
 }
