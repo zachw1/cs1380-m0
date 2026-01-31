@@ -2,9 +2,9 @@
   "name": "cs1380:m0",
   "version": "1.0.0",
   "author": {
-    "name": "<first last?>",
-    "email": "<email@brown.edu?>",
-    "cslogin": "<cslogin?>"
+    "name": "Zachary Wang",
+    "email": "zachary_z_wang@brown.edu",
+    "cslogin": "zzwang"
   },
   "description": "A set of components for cs1380's search engine.",
   "dependencies": {
@@ -29,19 +29,19 @@
   "report": [
     {
       "milestone": "M0",
-      "hours": 999,
-      "loc": 999,
+      "hours": 15,
+      "loc": 350,
       "dev": {
-        "cpu-no": 999,
-        "mem-gb": 999,
-        "ssd-gb": 999
+        "cpu-no": 8,
+        "mem-gb": 16,
+        "ssd-gb": 512
       },
       "throughput": {
-        "dev": [],
-        "aws": [],
+        "dev": [0.831, 3.791, 3.579],
+        "aws": [0.505, 0.492, 0.510],
         "gs": []
       },
-      "dloc": -99
+      "dloc": 8000
     }
   ]
 }

@@ -125,4 +125,40 @@ distribution.node.start(() => {
 
 # Results and Reflections
 
-> ...
+# M0: Setup & Centralized Computing
+
+> Add your contact information below and in `package.json`.
+
+* name: `Zachary Wang`
+
+* email: zachary_z_wang@brown.edu
+
+* cslogin: zzwang
+
+
+## Summary
+
+> Summarize your implementation, including the most challenging aspects; remember to update the `report` section of the `package.json` file with the total number of hours it took you to complete M0 (`hours`), the total number of JavaScript lines you added, including tests (`jsloc`), the total number of shell lines you added, including for deployment and testing (`sloc`).
+
+
+
+My implementation consists of 6 components addressing T1--8: `stem.js` (word stemming), `getText.js` (HTML to text conversion), `getURLs.js` (URL extraction), `process.sh` (text normalization), `merge.js` (inverted index merging), and `query.js` (search functionality). The most challenging aspect was `merge.js` because it required combining two differently formatted indices, the local and global, while keeping terms sorted and URLs ordered.
+
+
+## Correctness & Performance Characterization
+
+
+> Describe how you characterized the correctness and performance of your implementation.
+
+
+To characterize correctness, we developed 16 tests that test the following cases: stemming accuracy, HTML text extraction, URL extraction, text normalization, index merging and query functionality.
+
+
+*Performance*: The throughput of various subsystems is described in the `"throughput"` portion of package.json. The characteristics of my development machines are summarized in the `"dev"` portion of package.json.
+
+
+## Wild Guess
+
+> How many lines of code do you think it will take to build the fully distributed, scalable version of your search engine? Add that number to the `"dloc"` portion of package.json, and justify your answer below.
+
+I would guess around 8000 LOC would be needed to build the fully distributed version: roughly 2k for communication/RPC, 2k for distributed storage, 2k for parallel processing, and another 2k for testing.
