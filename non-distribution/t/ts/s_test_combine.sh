@@ -4,7 +4,7 @@
 cd "$(dirname "$0")/../.." || exit 1
 
 # Test: Single word should produce only 1-gram (itself)
-result=$(echo "hello" | c/combine.sh | grep -v '^$' | wc -l | tr -d ' ')
+result=$(echo "hello" | c/combine.sh | grep -vc '^$')
 if [ "$result" = "1" ]; then
     echo "$0 success: single word produces one 1-gram"
     exit 0

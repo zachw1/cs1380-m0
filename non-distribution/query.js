@@ -29,6 +29,7 @@ const fs = require('fs');
 const {execSync} = require('child_process');
 const path = require('path');
 
+const scriptDir = path.dirname(process.argv[1]);
 
 function query(indexFile, args) {
   const input = args.join(' ');
@@ -36,8 +37,8 @@ function query(indexFile, args) {
   let processed;
   try {
     processed = execSync(
-      `echo "${input}" | ./c/process.sh | ./c/stem.js | tr "\\r\\n" "  "`,
-      {encoding: 'utf-8', cwd: __dirname}
+        `echo "${input}" | ./c/process.sh | ./c/stem.js | tr "\\r\\n" "  "`,
+        {encoding: 'utf-8', cwd: scriptDir},
     ).trim();
   } catch (e) {
     return;
