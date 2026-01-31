@@ -31,6 +31,36 @@ const path = require('path');
 
 
 function query(indexFile, args) {
+  const input = args.join(' ');
+
+  let processed;
+  try {
+    processed = execSync(
+      `echo "${input}" | ./c/process.sh | ./c/stem.js | tr "\\r\\n" "  "`,
+      {encoding: 'utf-8', cwd: __dirname}
+    ).trim();
+  } catch (e) {
+    return;
+  }
+
+  if (!processed) {
+    return;
+  }
+
+  // read the global index file
+  let data;
+  try {
+    data = fs.readFileSync(indexFile, 'utf-8');
+  } catch (e) {
+    return;
+  }
+
+  // print lines that contain the search pattern
+  for (const line of data.split('\n')) {
+    if (line.includes(processed)) {
+      console.log(line);
+    }
+  }
 }
 
 const args = process.argv.slice(2); // Get command-line arguments
