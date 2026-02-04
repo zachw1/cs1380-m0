@@ -7,7 +7,7 @@ test('(3 pts) (scenario) 40 bytes object', () => {
           Come up with a JavaScript object, which when serialized,
           will result in a string that is 40 bytes in size.
       */
-  let object = null;
+  let object = "aafdsafdasla";
 
   const serialized = util.serialize(object);
   expect(serialized.length).toEqual(40);
@@ -15,9 +15,8 @@ test('(3 pts) (scenario) 40 bytes object', () => {
 
 test('(3 pts) (scenario) expected object', () => {
   /* Prepare an object so it results in an expected serialized string. */
-  let object = null;
-
-  let serializedObject = ''; /* Add here the expected serialized string by using util.serialize */
+  let object = "3";
+  let serializedObject = '{\"type\":\"string\",\"value\":\"3\"}'; /* Add here the expected serialized string by using util.serialize */
   expect(util.serialize(object)).toEqual(serializedObject);
 });
 
@@ -27,10 +26,14 @@ test('(3 pts) (scenario) string deserialized into target object', () => {
           {a: 1, b: "two", c: false}
       */
 
-  let string = null;
+  let string = '{"type":"object","value":{"a":{"type":"number","value":"1"},"b":{"type":"string","value":"two"},"c":{"type":"boolean","value":"false"}}}';
 
 
   const object = {a: 1, b: 'two', c: false};
+  /*
+  console.log(util.serialize(object))
+  */
+
   const deserialized = util.deserialize(string);
   expect(object).toEqual(deserialized);
 });
@@ -38,7 +41,18 @@ test('(3 pts) (scenario) string deserialized into target object', () => {
 test('(3 pts) (scenario) object with all supported data types', () => {
 /* Come up with an object that uses all valid (serializable)
     built-in data types supported by the serialization library. */
-  let object = null;
+  let object = {
+    n: 1,
+    s: 's',
+    b: true,
+    f: () => {},
+    u: undefined,
+    nl: null,
+    a: [],
+    o: {},
+    d: new Date(),
+    e: new Error(),
+  };;
 
   const setTypes = [];
   for (const k in object) {
@@ -72,7 +86,7 @@ test('(3 pts) (scenario) object with all supported data types', () => {
 test('(3 pts) (scenario) malformed serialized string', () => {
 /* Come up with a string that is not a valid serialized object. */
 
-  let malformedSerializedString = null;
+  let malformedSerializedString = '{';
 
 
   expect(() => {
