@@ -162,3 +162,25 @@ To characterize correctness, we developed 16 tests that test the following cases
 > How many lines of code do you think it will take to build the fully distributed, scalable version of your search engine? Add that number to the `"dloc"` portion of package.json, and justify your answer below.
 
 I would guess around 8000 LOC would be needed to build the fully distributed version: roughly 2k for communication/RPC, 2k for distributed storage, 2k for parallel processing, and another 2k for testing.
+
+
+# M1: Serialization / Deserialization
+
+
+## Summary
+
+> Summarize your implementation, including key challenges you encountered. Remember to update the `report` section of the `package.json` file with the total number of hours it took you to complete each task of M1 (`hours`) and the lines of code per task.
+
+
+My implementation comprises 1 software component (`serialization.js`), totaling approximately 100 lines of code. Key challenges included handling `typeof null` returning `"object"` instead of `"null"`, which I solved by checking `=== null` first. Another challenge was ordering `instanceof Date` and `instanceof Error` before the generic `typeof === 'object'` check to avoid catching subtypes as plain objects, and finally, preventing stringing too many times during recursive serialization, which I solved by using helper functions that return raw objects and only calling `JSON.stringify` one time, at the top level.
+
+## Correctness & Performance Characterization
+
+
+> Describe how you characterized the correctness and performance of your implementation
+
+
+*Correctness*: I wrote 5 student tests and 5 scenario tests; these tests cover primitives, special values (NaN, Infinity, negatives), objects, arrays, Date/Error/Function types, and mixed-type complex objects. I also wrote a latency benchmark test measuring serialization/deserialization across 6 different types
+
+
+*Performance*: The latency of various subsystems is described in the `"latency"` portion of package.json. Average latency on local dev is ~0.066ms and on AWS is ~0.178ms. The characteristics of my development machines are summarized in the `"dev"` portion of package.json.
