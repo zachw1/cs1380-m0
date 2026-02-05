@@ -41,7 +41,7 @@
       },
       "latency": {
         // (primitives, functions, complex structures)
-        "dev": [0.066, ],
+        "dev": [0.066, 1],
         "aws": [0.148, 0.197, 1]
       },
       "dloc": -99
