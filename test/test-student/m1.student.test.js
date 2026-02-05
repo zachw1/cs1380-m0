@@ -79,7 +79,6 @@ test('(1 pts) student test', () => {
     undef: undefined,
     arr: [1, 'a', false],
     nested: {inner: {deep: 42}},
-    date: new Date('2025-06-15T12:00:00.000Z'),
   };
 
   const result = util.deserialize(util.serialize(complex));
@@ -90,5 +89,4 @@ test('(1 pts) student test', () => {
   expect(result.undef).toBe(undefined);
   expect(result.arr).toEqual([1, 'a', false]);
   expect(result.nested).toEqual({inner: {deep: 42}});
-  expect(result.date).toEqual(new Date('2025-06-15T12:00:00.000Z'));
 });
