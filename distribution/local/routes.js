@@ -3,6 +3,7 @@
  * @typedef {string} ServiceName
  */
 
+const serviceDict = {};
 
 /**
  * @param {ServiceName | {service: ServiceName, gid?: string}} configuration
@@ -10,7 +11,25 @@
  * @returns {void}
  */
 function get(configuration, callback) {
-  return callback(new Error('routes.get not implemented'));
+  let name;
+  if (configuration && typeof configuration === 'object') {
+    name = configuration.service;
+  } else {
+    name = configuration;
+  }
+
+  if (!name) {
+    return callback(new Error('no service name'));
+  }
+
+  // see if it exists 
+  if (name in serviceDict) {
+    return callback(null, serviceDict[name]);
+  } else if (globalThis.distribution && globalThis.distribution.local[name]) {
+    return callback(null, globalThis.distribution.local[name]);
+  } else {
+    return callback(new Error(`service "${name}" not found`));
+  }
 }
 
 /**
@@ -20,7 +39,10 @@ function get(configuration, callback) {
  * @returns {void}
  */
 function put(service, configuration, callback) {
-  return callback(new Error('routes.put not implemented'));
+  serviceDict[configuration] = service;
+  if (callback) {
+    return callback(null, configuration);
+  }
 }
 
 /**
@@ -28,7 +50,13 @@ function put(service, configuration, callback) {
  * @param {Callback} callback
  */
 function rem(configuration, callback) {
-  return callback(new Error('routes.rem not implemented'));
+  if (configuration in serviceDict) {
+    const removed = serviceDict[configuration];
+    delete serviceDict[configuration];
+    return callback(null, removed);
+  } else {
+    return callback(new Error(`service "${configuration}" not found`));
+  }
 }
 
 module.exports = {get, put, rem};

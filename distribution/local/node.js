@@ -83,50 +83,61 @@ function start(callback) {
   const server = http.createServer((req, res) => {
     /* Your server will be listening for PUT requests. */
 
-    // Write some code...
-
+    // rej not PUT requests
+    if (req.method !== 'PUT') {
+      const errorSerialized = globalThis.distribution.util.serialize(
+          new Error('PUT request required'));
+      res.end(errorSerialized);
+      return;
+    }
 
     /*
       The path of the http request will determine the service to be used.
-      The url will have the form: http://node_ip:node_port/service/method
+      The url will have the form: http://node_ip:node_port/gid/service/method
     */
 
-    // Write some code...
 
-
-    /*
-      A common pattern in handling HTTP requests in Node.js is to have a
-      subroutine that collects all the data chunks belonging to the same
-      request. These chunks are aggregated into a body variable.
-
-      When the req.on('end') event is emitted, it signifies that all data from
-      the request has been received. Typically, this data is in the form of a
-      string. To work with this data in a structured format, it is often parsed
-      into a JSON object using JSON.parse(body), provided the data is in JSON
-      format.
-
-      Our nodes expect data in JSON format.
-    */
-
-    // Write some code...
+    const pathname = url.parse(req.url).pathname;
+    const parts = pathname.substring(1).split('/');
+    // parts = [gid, service, method]
+    const gid = parts[0] || 'local';
+    const serviceName = parts[1];
+    const method = parts[2];
 
     /** @type {any[]} */
     const body = [];
 
     req.on('data', (chunk) => {
+      body.push(chunk);
     });
 
     req.on('end', () => {
+      const str = Buffer.concat(body).toString();
+      let args = [];
+      if (str.length > 0) {
+        args = globalThis.distribution.util.deserialize(str);
+      }
 
-      /*
-        Here, you can handle the service requests.
-        Use the local routes service to get the service you need to call.
-        You need to call the service with the method and arguments provided in the request.
-        Then, you need to serialize the result and send it back to the caller.
-      */
+      if (!Array.isArray(args)) {
+        args = [];
+      }
 
-      // Write some code...
-
+      // look up service from routes
+      const routeService = {service: serviceName, gid: gid};
+      globalThis.distribution.local.routes.get(routeService, (error, service) => {
+        if (error) {
+          res.end(globalThis.distribution.util.serialize([error, null]));
+          return;
+        }
+        if (!service[method]) {
+          res.end(globalThis.distribution.util.serialize(
+              [new Error(`method ${method} not found`), null]));
+          return;
+        }
+        service[method](...args, (err, val) => {
+          res.end(globalThis.distribution.util.serialize([err, val]));
+        });
+      });
     });
   });
 
