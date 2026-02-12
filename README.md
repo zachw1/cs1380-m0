@@ -184,3 +184,45 @@ My implementation comprises 1 software component (`serialization.js`), totaling 
 
 
 *Performance*: The latency of various subsystems is described in the `"latency"` portion of package.json. Average latency on local dev is ~0.066ms and on AWS is ~0.178ms. The characteristics of my development machines are summarized in the `"dev"` portion of package.json.
+
+
+# M2: Actors and Remote Procedure Calls (RPC)
+
+
+## Summary
+
+> Summarize your implementation, including key challenges you encountered. Remember to update the `report` section of the `package.json` file with the total number of hours it took you to complete each task of M2 (`hours`) and the lines of code per task.
+
+
+
+My implementation comprises 4 software components (`status.js`, `routes.js`, `comm.js`, `node.js`), totaling approximately 250 lines of code.
+
+`comm.js` - given a message and target, serializes message, sends HTTP PUT to nodes URL, deserializes response, passes res to caller
+
+`status.js` - returns data about a node.
+
+`routes.js` - maps names to service objects. Contains service lookup, service registration, and service removal.
+
+`node.js` - runs HTTP server to handle requests 
+
+Some challenges included handling error first callback pattern across all files, and making sure that errors are returned thorugh callbacks rather than being thrown as exceptions. Another challenge was understanding that the routes.get needs to fall back to built-in services when a service isn't explicitly registered using `routes.put`
+
+
+
+## Correctness & Performance Characterization
+
+> Describe how you characterized the correctness and performance of your implementation
+
+
+*Correctness*: I wrote 5 tests that cover all 4 components. these tests take approximately 0.4s to execute.
+
+
+*Performance*: I characterized the performance of comm and RPC by sending 1000 service requests in a tight loop. Average throughput and latency is recorded in `package.json`.
+
+
+## Key Feature
+
+> How would you explain the implementation of `createRPC` to someone who has no background in computer science — i.e., with the minimum jargon possible?
+
+You have a function that can do a specific task. You want other people in different locations to use your function, get the result, and have it sent back to them. `createRPC` allows this to happen. 
+
