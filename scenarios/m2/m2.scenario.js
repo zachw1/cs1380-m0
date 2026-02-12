@@ -44,7 +44,7 @@ test('(2 pts) (scenario) collect errors and successful results', (done) => {
   };
 
   const peachDeliveryService = (callback) => {
-    callback(new Error('good peaches'));
+    callback(null, 'good peaches');
     // ...
   };
 
